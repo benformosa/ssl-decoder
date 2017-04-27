@@ -75,6 +75,18 @@ If you want to use the latest OpenSSL and your distro doesn't ship with it, you 
     make test
     make install
 
+## Build and run with Docker
+
+Build the docker image:
+```bash
+docker build -t ssl-decoder .
+```
+
+Run with docker:
+```bash
+docker run --name ssl-decoder -d -p 80:80 ssl-decoder
+```
+
 ## Demo
 
 See [https://ssldecoder.org](https://ssldecoder.org).
