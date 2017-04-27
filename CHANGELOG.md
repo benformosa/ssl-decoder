@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2.1
+- Update Dockerfile and build instructions for automated builds.
+
 ## 3.2
 
 - Add support for PHP 7.
