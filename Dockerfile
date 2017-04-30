@@ -1,20 +1,22 @@
-FROM php:7.0-apache
+FROM php:7-apache
+
+ADD docker/testing.list /etc/apt/sources.list.d/testing.list
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends -t stable \
+	openssl/testing \
+        dnsutils \
+        g++ \
         libfreetype6-dev \
+        libicu-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
-        zlib1g-dev \
-        libicu-dev \
-        g++ \
-        python2.7 \
+        perl \
         python-all-dev \
         python-netaddr \   
-        perl \
-        dnsutils \
-        wget
+        python2.7 \
+        zlib1g-dev
     
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin \
     && docker-php-ext-configure intl \
@@ -25,14 +27,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
-
-RUN mkdir -p /usr/local/src \
-    && cd /usr/local/src \
-    && wget https://www.openssl.org/source/openssl-1.1.0e.tar.gz \
-    && tar -xf openssl-1.1.0e.tar.gz \
-    && cd openssl-1.1.0e \
-    && ./config --prefix=/usr/local no-afalgeng \
-    && make \
-    && make install 
 
 ADD . /var/www/html
